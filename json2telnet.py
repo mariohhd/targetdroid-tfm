@@ -34,7 +34,6 @@ def format_event(event, c, commands):
       commands.append(a)
 
 def set_context(context):
-  utils.filter(context)
   for event in context:
     telnet = event2command(context)
     execute(telnet)

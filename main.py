@@ -10,7 +10,7 @@ from config_os import config_os
 from json2telnet import set_context
 from collections import OrderedDict
 from emulator import stop_emulator
-import utils
+import config
 
 
 # -----------------------
@@ -29,9 +29,6 @@ import utils
 
 
 input_file = ''
-utils.set_config('emulator', 'android23')
-utils.set_config('ip', '127.0.0.1')
-utils.set_config('port', '5554')
 duration = 0
 argv = sys.argv
 try:
@@ -46,11 +43,11 @@ for opt, arg in opts:
     elif opt in ("-f", "--file"):
         input_file = arg
     elif opt in ("-e", "--emulator"):
-        utils.set_config('emulator', arg)
+        config.set('emulator', arg)
     elif opt in ("-p", "--port"):
-        utils.set_config('port', arg)
+        config.set('port', arg)
     elif opt in ("-i", "--ip"):
-        utils.set_config('ip', arg)
+        config.set('ip', arg)
 
 # -----------------------
 # Main

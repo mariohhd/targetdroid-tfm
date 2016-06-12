@@ -1,13 +1,13 @@
 import sys
 import telnetlib, socket
 import time
-import utils
+import config
 
-timeout = 5
+timeout = config.get('telnet_timeout')
 
 def execute(events):
-  ip = utils.get_config('ip')
-  port = utils.get_config('port')
+  ip = config.get('ip')
+  port = config.get('port')
   try:
     telnet = telnetlib.Telnet(ip, port)
     for event in events:
