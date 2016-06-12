@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "JSON inut to configurate android emulators and generate events",
+  "type": "object",
+  "properties": {
+    "t-1": {
+      "id": "android emulator configuration in t=-1",
+      "type": "object",
+      "properties": {
+        "phone": {
+          "id": "phone properties",
+          "type": "object",
+          "properties": {
+            "brand": {
+              "id": "phone brand name",
+              "type": "string"
+            },
+            "device": {
+              "id": "phone device name",
+              "type": "string"
+            },
+            "hardware": {
+              "id": "phone hardware name",
+              "type": "string"
+            },
+            "imei": {
+              "id": "phone imei",
+              "type": "string"
+            },
+            "imsi": {
+              "id": "phone imsi",
+              "type": "string"
+            },
+            "network_provider": {
+              "id": "phone network provider name",
+              "type": "string"
+            }
+          },
+        },
+        "network": {
+          "id": "network properties",
+          "type": "object",
+          "properties": {
+            "IP": {
+              "id": "phone IP",
+              "type": "string"
+            },
+            "DNS": {
+              "id": "phone DNS server",
+              "type": "string"
+            }
+          }
+        }
+      },
+    },
+    "t0": {
+      "id": "Phone configurations and events in t=0",
+      "type": "object",
+      "properties": {
+        "install_app": {
+          "id": "apks to install",
+          "type": "string"
+        },
+        "timezone": {
+          "id": "timezone for the emulator",
+          "type": "string"
+        },
+        "power": {
+          "id": "power properties",
+          "type": "object",
+          "properties": {
+            "ac": {
+              "id": "ac properties",
+              "type": { "enum": ["on", "off"] }
+            },
+            "capacity": {
+              "id": "capacity properties",
+              "type": "integer"
+            },
+            "health": {
+              "id": "power health properties",
+              "type": {"enum": ["unknown", "good", "overheat", "dead", "overvoltage", "failure"] }
+            },
+            "present": {
+              "id": "battery presence,
+              "type": "boolean"
+            },
+            "status": {
+              "id": "battery status",
+              "type": { "enum": ["unknown", "charging", "discharging", "not-charging", "full"] }
+            }
+          }
+        }
+      }
+    },
+    "t1": {
+      "id": "events in t=1",
+      "type": "object",
+      "properties": {
+        "power": {
+          "id": "power properties",
+          "type": "object",
+          "properties": {
+            "ac": {
+              "id": "ac properties",
+              "type": { "enum": ["on", "off"] }
+            },
+            "capacity": {
+              "id": "capacity properties",
+              "type": "integer"
+            },
+            "health": {
+              "id": "power health properties",
+              "type": {"enum": ["unknown", "good", "overheat", "dead", "overvoltage", "failure"] }
+            },
+            "present": {
+              "id": "battery presence,
+              "type": "boolean"
+            },
+            "status": {
+              "id": "battery status",
+              "type": { "enum": ["unknown", "charging", "discharging", "not-charging", "full"] }
+            }
+          }
+        },
+        "gsm": {
+          "id": "calling events",
+          "type": "object",
+          "properties": {
+            "call": {
+              "id": "call to a number",
+              "type": "string"
+            },
+            "accept": {
+              "id": "accept a call",
+              "type": "string"
+            },
+            "busy": {
+              "id": "busy a call",
+              "type": "string"
+            },
+            "cancel": {
+              "id": "cancell a call",
+              "type": "string"
+            },
+            "data": {
+              "id": "data connection status",
+              "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
+            },
+            "voice": {
+              "id": "voice connection status",
+              "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
+            }
+          }
+        },
+        "sms": {
+          "id": "send a sms message",
+          "type": "object",
+          "properties": {
+            "number": {
+              "id": "number phone to send a sms",
+              "type": "string"
+            },
+            "text": {
+              "id": "message",
+              "type": "string"
+            },
+            "required": [ "number", "sms" ]
+          }
+        },
+        "geo": {
+          "id": "location events",
+          "type": "object",
+          "properties": {
+            "fix": {
+              "id": "http://jsonschema.net/t1/geo/fix",
+              "type": "object",
+              "properties": {
+                "longitude": {
+                  "id": "longitude",
+                  "type": "string"
+                },
+                "latitude": {
+                  "id": "latitude",
+                  "type": "string"
+                },
+                "altitude": {
+                  "id": "altitude",
+                  "type": "string"
+                },
+                "required": [ "longitude", "latitude" ]
+              }
+            },
+            "nmea": {
+              "id": "nmea",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "t2": {
+      "id": "events in t=2",
+      "type": "object",
+      "properties": {
+        "sms": {
+          "id": "send a sms message",
+          "type": "object",
+          "properties": {
+            "number": {
+              "id": "number phone to send a sms",
+              "type": "string"
+            },
+            "text": {
+              "id": "message",
+              "type": "string"
+            },
+            "required": [ "number", "sms" ]
+          }
+        },
+      }
+    }
+  },
+  "required": [
+    "t-1",
+    "t0",
+    "t1"
+  ]
+}

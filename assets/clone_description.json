@@ -1,0 +1,64 @@
+{
+	"t-1": {
+		"phone": {
+			"brand": "marca",
+			"device": "modelo x",
+			"hardware": "goldfish",
+			"imei": "123456789",
+			"imsi": "123456789",
+			"network_provider": "vodofono"
+		},
+		"network": {
+			"IP": "10.0.16.11.11",
+			"DNS": "192.168.2.2"
+		}
+	},
+	"t0": {
+		"install_app": "com.example.com",
+		"timezone": "America/Los_Angeles",
+		"power": {
+			"ac": "off",
+			"capacity": "35",
+			"health": "overheat",
+			"present": true,
+			"status": "full"
+		},
+	},
+	"t1": {
+		"power": {
+			"ac": "on",
+			"capacity": "85",
+			"health": "overheat",
+			"present": true,
+			"status": "full"
+		},
+		"gsm": {
+			"call": "666777888",
+			"accept": "666777888",
+			"busy": "666777888",
+			"cancel": "666777888",
+			"data": "home",
+			"voice": "roaming"
+		},
+		"sms": {
+			"number": "666777888",
+			"text": "sms sent!"
+		},
+		"geo": {
+			"fix": {
+				"longitude": "-2.1111",
+				"latitude": "11.333342",
+				"altitude": "341.2"
+				},
+			"nmea": "1213412"
+		}
+	},
+
+	"t2": {
+		"sms": {
+			"number": "555666777",
+			"text": "another sms sent!"
+		}
+
+	}
+}

@@ -1,0 +1,328 @@
+diff --git a/android/avd/hardware-properties.ini b/android/avd/hardware-properties.ini
+index 615c758..ceb15b9 100644
+--- a/android/avd/hardware-properties.ini
++++ b/android/avd/hardware-properties.ini
+@@ -150,3 +150,25 @@ type        = integer
+ default     = 16
+ abstract    = Max VM application heap size
+ description = The maximum heap size a Dalvik application might allocate before being killed by the system. Value is in megabytes.
++
++# SIM card serial
++name        = hw.gsmModem.simSerial
++type        = string
++default     = 89014103211118510720
++abstract    = SIM card serial
++description = Serial of the emulated SIM card, maximum 20 digits.
++
++# GSM IMEI number
++name        = hw.gsmModem.imei
++type        = string
++default     = 000000000000000
++abstract    = IMEI number
++description = IMEI number of the GSM modem, maximum 15 digits.
++
++# GSM IMSI number
++name        = hw.gsmModem.imsi
++type        = string
++default     = 310260000000000
++abstract    = IMSI number
++description = IMSI number of the GSM modem, maximum 15 digits.
++
+diff --git a/android/avd/hw-config-defs.h b/android/avd/hw-config-defs.h
+index 77cb8fe..9d39483 100644
+--- a/android/avd/hw-config-defs.h
++++ b/android/avd/hw-config-defs.h
+@@ -150,6 +150,27 @@ HWCFG_INT(
+   "Max VM application heap size",
+   "The maximum heap size a Dalvik application might allocate before being killed by the system. Value is in megabytes.")
+ 
++HWCFG_STRING(
++  hw_gsmModem_simSerial,
++  "hw.gsmModem.simSerial",
++  "89014103211118510720",
++  "SIM card serial",
++  "Serial of the emulated SIM card, maximum 20 digits.")
++
++HWCFG_STRING(
++  hw_gsmModem_imei,
++  "hw.gsmModem.imei",
++  "000000000000000",
++  "IMEI number",
++  "IMEI number of the GSM modem, maximum 15 digits.")
++
++HWCFG_STRING(
++  hw_gsmModem_imsi,
++  "hw.gsmModem.imsi",
++  "310260000000000",
++  "IMSI number",
++  "IMSI number of the GSM modem, maximum 15 digits.")
++
+ #undef HWCFG_INT
+ #undef HWCFG_BOOL
+ #undef HWCFG_DISKSIZE
+diff --git a/android/avd/info.c b/android/avd/info.c
+index 5634ef6..6f2c716 100644
+--- a/android/avd/info.c
++++ b/android/avd/info.c
+@@ -259,7 +259,7 @@ _getSearchPaths( AvdInfo*  i )
+         if (p >= end)
+             continue;
+ 
+-        path = iniFile_getString( i->configIni, temp );
++        path = iniFile_getString( i->configIni, temp, NULL );
+         if (path != NULL) {
+             DD("    found image search path: %s", path);
+             if (!path_is_absolute(path)) {
+@@ -322,7 +322,7 @@ _getRootIni( AvdInfo*  i )
+ static int
+ _getContentPath( AvdInfo*  i )
+ {
+-    i->contentPath = iniFile_getString(i->rootIni, ROOT_PATH_KEY);
++    i->contentPath = iniFile_getString(i->rootIni, ROOT_PATH_KEY, NULL);
+ 
+     if (i->contentPath == NULL) {
+         derror("bad config: %s",
+@@ -957,7 +957,7 @@ _getSkin( AvdInfo*  i, AvdInfoParams*  params )
+     if (params->skinName) {
+         skinName = ASTRDUP(params->skinName);
+     } else {
+-        skinName = iniFile_getString( i->configIni, SKIN_PATH );
++        skinName = iniFile_getString( i->configIni, SKIN_PATH, NULL );
+         explicitSkin = 0;
+     }
+ 
+@@ -1060,7 +1060,7 @@ _getSDCardPath( AvdInfo*  i, AvdInfoParams*  params )
+     if (params->forcePaths[AVD_IMAGE_SDCARD] != NULL)
+         return;
+ 
+-    path = iniFile_getString(i->configIni, SDCARD_PATH);
++    path = iniFile_getString(i->configIni, SDCARD_PATH, NULL);
+     if (path == NULL)
+         return;
+ 
+diff --git a/android/utils/ini.c b/android/utils/ini.c
+index 95bb4e3..900e74e 100644
+--- a/android/utils/ini.c
++++ b/android/utils/ini.c
+@@ -314,12 +314,12 @@ iniFile_saveToFile( IniFile*  f, const char*  filepath )
+ }
+ 
+ char*
+-iniFile_getString( IniFile*  f, const char*  key )
++iniFile_getString( IniFile*  f, const char*  key, const char* defaultValue )
+ {
+     const char*  val = iniFile_getValue(f, key);
+ 
+     if (!val)
+-        return NULL;
++        return ASTRDUP(defaultValue);
+ 
+     return ASTRDUP(val);
+ }
+diff --git a/android/utils/ini.h b/android/utils/ini.h
+index 83d2027..7627f5e 100644
+--- a/android/utils/ini.h
++++ b/android/utils/ini.h
+@@ -59,10 +59,6 @@ void      iniFile_getPair( IniFile*     f,
+  */
+ const char*  iniFile_getValue( IniFile*  f, const char*  key );
+ 
+-/* returns a copy of the value of a given key, or NULL
+- */
+-char*   iniFile_getString( IniFile*  f, const char*  key );
+-
+ /* returns an integer value, or a default in case the value string is
+  * missing or badly formatted
+  */
+@@ -78,9 +74,9 @@ int64_t iniFile_getInt64( IniFile*  f, const char*  key, int64_t  defaultValue )
+  */
+ double  iniFile_getDouble( IniFile*  f, const char*  key, double  defaultValue );
+ 
+-/* returns a copy of a given key's value, if any, or NULL if it is missing
++/* returns a copy of a given key's value, if any, or defaultValue if it is missing
+  * caller must call free() to release it */
+-char*   iniFile_getString( IniFile*  f, const char*  key );
++char*   iniFile_getString( IniFile*  f, const char*  key, const char*  defaultValue );
+ 
+ /* parses a key value as a boolean. Accepted values are "1", "0", "yes", "YES",
+  * "no" and "NO". Returns either 1 or 0.
+diff --git a/telephony/android_modem.c b/telephony/android_modem.c
+index 6e73411..a1da5ce 100644
+--- a/telephony/android_modem.c
++++ b/telephony/android_modem.c
+@@ -10,6 +10,7 @@
+ ** GNU General Public License for more details.
+ */
+ #include "android/android.h"
++#include "android/globals.h"
+ #include "android_modem.h"
+ #include "android/utils/debug.h"
+ #include "android/utils/timezone.h"
+@@ -188,6 +189,9 @@ typedef struct {
+ 
+ #define  A_MODEM_SELF_SIZE   3
+ 
++#define MAX_IMEI_LENGTH     15
++#define MAX_IMSI_LENGTH     15
++
+ typedef struct AModemRec_
+ {
+     /* Legacy support */
+@@ -232,6 +236,9 @@ typedef struct AModemRec_
+ 
+     SmsReceiver         sms_receiver;
+ 
++    char                imei[MAX_IMEI_LENGTH + 1];
++    char                imsi[MAX_IMSI_LENGTH + 1];
++
+     int                 out_size;
+     char                out_buff[1024];
+ 
+@@ -349,6 +356,7 @@ static AModemRec   _android_modem[1];
+ AModem
+ amodem_create( int  base_port, AModemUnsolFunc  unsol_func, void*  unsol_opaque )
+ {
++    int i;
+     AModem  modem = _android_modem;
+ 
+     amodem_reset( modem );
+@@ -359,6 +367,26 @@ amodem_create( int  base_port, AModemUnsolFunc  unsol_func, void*  unsol_opaque
+ 
+     modem->sim = asimcard_create();
+ 
++    // Copy configured IMEI
++    assert(android_hw[0].hw_gsmModem_imei);
++    strncpy(modem->imei, android_hw[0].hw_gsmModem_imei, MAX_IMEI_LENGTH);
++    modem->imei[MAX_IMEI_LENGTH] = 0;
++
++    // Copy configured IMSI
++    assert(android_hw[0].hw_gsmModem_imsi);
++    strncpy(modem->imsi, android_hw[0].hw_gsmModem_imsi, MAX_IMSI_LENGTH);
++    modem->imsi[MAX_IMSI_LENGTH] = 0;
++
++    // Ensure IMEI contains digits only
++    for (i = 0; modem->imei[i]; i++)
++	if (modem->imei[i] < '0' || modem->imei[i] > '9')
++		modem->imei[i] = '0';
++
++    // Ensure IMSI contains digits only
++    for (i = 0; modem->imsi[i]; i++)
++	if (modem->imsi[i] < '0' || modem->imsi[i] > '9')
++		modem->imsi[i] = '0';
++
+     return  modem;
+ }
+ 
+@@ -1680,6 +1708,18 @@ handleHangup( const char*  cmd, AModem  modem )
+     return NULL;
+ }
+ 
++static const char*
++handleGetImei(const char*  cmd, AModem  modem)
++{
++    return modem->imei;
++}
++
++static const char*
++handleGetImsi(const char*  cmd, AModem  modem)
++{
++    return modem->imsi;
++}
++
+ 
+ /* a function used to deal with a non-trivial request */
+ typedef const char*  (*ResponseHandler)(const char*  cmd, AModem  modem);
+@@ -1766,8 +1806,8 @@ static const struct {
+     { "A", NULL, handleAnswer },  /* answer the call */
+     { "H", NULL, handleAnswer },  /* user is busy */
+     { "!+VTS=", NULL, handleSetDialTone },
+-    { "+CIMI", OPERATOR_HOME_MCCMNC "000000000", NULL },   /* request internation subscriber identification number */
+-    { "+CGSN", "000000000000000", NULL },   /* request model version */
++    { "+CIMI", NULL, handleGetImsi },   /* request internation subscriber identification number */
++    { "+CGSN", NULL, handleGetImei },   /* request model version */
+     { "+CUSD=2",NULL, NULL }, /* Cancel USSD */
+     { "+COPS=0", NULL, handleOperatorSelection }, /* set network selection to automatic */
+     { "!+CMGD=", NULL, handleDeleteSMSonSIM }, /* delete SMS on SIM */
+diff --git a/telephony/sim_card.c b/telephony/sim_card.c
+index a5a3249..cffa691 100644
+--- a/telephony/sim_card.c
++++ b/telephony/sim_card.c
+@@ -10,6 +10,7 @@
+ ** GNU General Public License for more details.
+ */
+ #include "sim_card.h"
++#include "android/globals.h"
+ #include <string.h>
+ #include <assert.h>
+ 
+@@ -21,6 +22,8 @@
+ #define  A_SIM_PIN_SIZE  4
+ #define  A_SIM_PUK_SIZE  8
+ 
++#define  MAX_SERIAL_LENGTH        20
++
+ typedef struct ASimCardRec_ {
+     ASimStatus  status;
+     char        pin[ A_SIM_PIN_SIZE+1 ];
+@@ -29,6 +32,7 @@ typedef struct ASimCardRec_ {
+ 
+     char        out_buff[ 256 ];
+     int         out_size;
++    char        serial[MAX_SERIAL_LENGTH + 1];
+ 
+ } ASimCardRec;
+ 
+@@ -37,11 +41,23 @@ static ASimCardRec  _s_card[1];
+ ASimCard
+ asimcard_create( void )
+ {
++    int i;
+     ASimCard  card    = _s_card;
+     card->status      = A_SIM_STATUS_READY;
+     card->pin_retries = 0;
+     strncpy( card->pin, "0000", sizeof(card->pin) );
+     strncpy( card->puk, "12345678", sizeof(card->puk) );
++
++    // Copy configured SIM serial
++    assert(android_hw[0].hw_gsmModem_simSerial);
++    strncpy(card->serial, android_hw[0].hw_gsmModem_simSerial, MAX_SERIAL_LENGTH);
++    card->serial[MAX_SERIAL_LENGTH] = 0;
++
++    // Ensure SIM serial contains digits only
++    for (i = 0; card->serial[i]; i++)
++        if (card->serial[i] < '0' || card->serial[i] > '9')
++            card->serial[i] = '0';
++
+     return card;
+ }
+ 
+@@ -429,6 +445,29 @@ asimcard_io( ASimCard  sim, const char*  cmd )
+     }
+ #endif
+ 
++    // Hack for SIM serial
++    if (!strcmp("+CRSM=176,12258,0,0,10", cmd)) {
++        char*  out = sim->out_buff;
++        int serial_len = strlen(sim->serial);
++        int i;
++
++        strcpy( out, "+CRSM: 144,0," );
++        out  += strlen(out);
++
++        assert(serial_len <= MAX_SERIAL_LENGTH);
++        for (i = 0; i + 1 < serial_len; i+= 2) {
++            out[i] = sim->serial[i + 1];
++            out[i + 1] = sim->serial[i];
++        }
++        if (i < serial_len) {
++            out[i] = '0';
++            out[i + 1] = sim->serial[i];
++        }
++        out[i + 2] = 0;
++
++        return sim->out_buff;
++    }
++
+     for (nn = 0; answers[nn].cmd != NULL; nn++) {
+         if ( !strcmp( answers[nn].cmd, cmd ) ) {
+             return answers[nn].answer;
