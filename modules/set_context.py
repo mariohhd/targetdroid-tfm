@@ -1,6 +1,6 @@
 import numbers
 from collections import OrderedDict
-from telnet import execute
+from libraries.telnet import execute
 import utils
 
 alll = ['geo fix', 'sms']
@@ -33,7 +33,7 @@ def format_event(event, c, commands):
       a = a + format_values(event[o]) + ' '
       commands.append(a)
 
-def set_context(context):
+def inject_events(context):
   for event in context:
     telnet = event2command(context)
     execute(telnet)

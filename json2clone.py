@@ -5,32 +5,16 @@
 
 import sys, json, getopt
 from collections import OrderedDict
-from config_environment import config_environment
-from config_os import config_os
-from json2telnet import set_context
-from collections import OrderedDict
-from emulator import stop_emulator
+from modules.set_environment import set_environment
+from modules.init_context import init_context
+from modules.set_context import inject_events
+from libraries.emulator import stop_emulator
 import config
-
-
-# -----------------------
-# Constants
-# -----------------------
-
-
-# -----------------------
-# Functions
-# -----------------------
-
-
-# -----------------------
-# Params
-# -----------------------
-
 
 input_file = ''
 duration = 0
 argv = sys.argv
+
 try:
     opts, args = getopt.getopt(argv[1:],"hf:e:p:i",["file=","emulator=","port=","ip="])
 except getopt.GetoptError:
@@ -57,17 +41,17 @@ try:
     with open(input_file) as file:
         scenarios = json.load(file, object_pairs_hook=OrderedDict)
     for scenario in scenarios:
-        print '-----------------'+scenario+'----------------'
+        print '----------------- ' + scenario + ' -----------------'
         events = scenarios[scenario]
         for context in events:
-            print '---------------------- time ' + str(context['t']) +'------------------';
+            print '----------------- Time: ' + str(context['t']) + ' -----------------';
             if context['t'] == -1:
-                config_environment(context)
+                set_environment(context)
             if context['t'] == 0:
-                config_os(context)
+                init_context(context)
             if context['t'] > 0:
-                set_context(context)
+                inject_events(context)
         stop_emulator()
-    print '-------------FIN-------------------'
+    print '-------------- END --------------------'
 except EOFError:
     print "Error: cannot open json file"

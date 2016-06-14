@@ -1,4 +1,4 @@
-from emulator import start_emulator
+from libraries.emulator import start_emulator
 from ini_parser import parse_ini_property
 import utils, config
 
@@ -18,7 +18,7 @@ def set_ini_properties(properties):
   if len(aux) > 0:
     utils.write_file(config.get('ini_path')+config.get('emulator')+'.ini', aux)
 
-def config_environment(context):
+def set_environment(context):
   for event in context:
     if event == 'network':
       format_network(context[event])
