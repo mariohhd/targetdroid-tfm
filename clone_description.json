@@ -1,5 +1,5 @@
 {
-	"scenario-0":
+	"scenario_0":
 		[
 			{		
 				"t": -1,
@@ -14,6 +14,10 @@
 				"network": {
 					"IP": "10.0.16.11.11",
 					"DNS": "192.168.2.2"
+				},
+				"ini_properties": {
+					"camera_back": true,
+					"audio_input": false
 				}
 			},
 			{
