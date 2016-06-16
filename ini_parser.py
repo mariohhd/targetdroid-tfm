@@ -1,6 +1,7 @@
 ini_properties = {
   'cpu_arch': 'hw.cpu.arch',
   'cpu_model': 'hw.cpu.model',
+  'ram_size': 'hw.ramSize',
   'screen_type': 'hw.screen',
   'main_keys': 'hw.mainKeys',
   'track_ball': 'hw.trackBall',
