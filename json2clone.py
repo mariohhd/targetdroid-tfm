@@ -41,15 +41,15 @@ try:
     with open(input_file) as file:
         scenarios = json.load(file, object_pairs_hook=OrderedDict)
     for scenario in scenarios:
-        print '----------------- ' + scenario + ' -----------------'
-        events = scenarios[scenario]
+        print '----------------- ' + scenario['name'] + ' -----------------'
+        events = scenario['time']
         for context in events:
-            print '----------------- Time: ' + str(context['t']) + ' -----------------';
-            if context['t'] == -1:
+            print '----------------- Time: ' + str(context['id']) + ' -----------------';
+            if context['id'] == -1:
                 set_environment(context)
-            if context['t'] == 0:
+            if context['id'] == 0:
                 init_context(context)
-            if context['t'] > 0:
+            if context['id'] > 0:
                 inject_events(context)
         stop_emulator()
     print '-------------- END --------------------'

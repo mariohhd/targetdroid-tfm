@@ -1,8 +1,9 @@
-{
-	"scenario_0":
-		[
-			{		
-				"t": -1,
+[
+	{
+		"name": "scenario_0",
+		"time": [
+			{
+				"id": -1,
 				"phone": {
 					"brand": "marca",
 					"device": "modelo x",
@@ -21,7 +22,7 @@
 				}
 			},
 			{
-				"t": 0,
+				"id": 0,
 				"install_app": "com.example.com",
 				"timezone": "Europe/Madrid",
 				"power": {
@@ -33,7 +34,7 @@
 				}
 			},
 			{
-				"t": 1,
+				"id": 1,
 				"power": {
 					"ac": "on",
 					"capacity": "85",
@@ -49,6 +50,26 @@
 					"data": "home",
 					"voice": "roaming"
 				}
-			}	
+			},
+			{
+				"id": 2,
+				"power": {
+					"ac": "on",
+					"capacity": "85",
+					"health": "overheat",
+					"present": true,
+					"status": "full"
+				},
+				"gsm": {
+					"call": "666777888",
+					"accept": "666777888",
+					"busy": "666777888",
+					"cancel": "666777888",
+					"data": "home",
+					"voice": "roaming"
+				}
+			}
+
 		]
-}
+	}
+]
