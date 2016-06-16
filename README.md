@@ -6,4 +6,4 @@ Dependencies:
 
 To execute:
 
-- json2clone.sh - h -f <file> [-e <emulator>] [-i <ip>] [-p <port>]
+- json2clone.sh -h -f <path_to_file> -e <emulator> -i <ip> -p <port>
