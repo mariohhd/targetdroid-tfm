@@ -18,11 +18,11 @@ argv = sys.argv
 try:
     opts, args = getopt.getopt(argv[1:],"hf:e:p:i",["file=","emulator=","port=","ip="])
 except getopt.GetoptError:
-    print 'main.py - h -f <file> [-e <emulator>] [-i <ip>] [-p <port>]'
+    print 'json2clone.sh - h -f <file> [-e <emulator>] [-i <ip>] [-p <port>]'
     sys.exit(2)
 for opt, arg in opts:
     if opt == '-h':
-        print 'main.py -h -f <file> [-e <emulator>] [-p <port>]'
+        print 'json2clone.sh -h -f <file> [-e <emulator>] [-p <port>]'
         sys.exit()
     elif opt in ("-f", "--file"):
         input_file = arg
