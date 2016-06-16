@@ -55,3 +55,7 @@ try:
     print '-------------- END --------------------'
 except EOFError:
     print "Error: cannot open json file"
+except:
+    print "Unexpected error:", sys.exc_info()[0]
+    stop_emulator()
+    raise
