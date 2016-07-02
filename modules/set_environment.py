@@ -1,9 +1,8 @@
-from libraries.emulator import start_emulator
+from libraries.emulator import create_emulator, start_emulator
 from ini_parser import parse_ini_property
 import utils, config
 
 options = []
-
 
 def format_network(event):
   for o in event:
@@ -20,6 +19,8 @@ def set_ini_properties(properties):
 
 def set_environment(context):
   for event in context:
+    if event == 'emulator':
+      create_emulator(context[event])
     if event == 'network':
       format_network(context[event])
     if event == 'ini_properties':
