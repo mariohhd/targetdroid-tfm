@@ -3,6 +3,15 @@ from subprocess import Popen, PIPE, STDOUT, call
 from time import sleep
 import config
 
+def create_emulator(options):
+  name = options['name']
+  target = options['sdk_version']
+  config.set('emulator', name)
+  p = Popen(['android', '-s', 'create', 'avd', '-n', name, '-f', '-t',  target], stdin=PIPE)
+  print p.communicate(input='no\n')[0]
+  print '> Created new emulator: -name ' + name + ' -sdk-version: ' + target  
+
+
 
 def start_emulator(options):
   emulator_name = config.get('emulator')
@@ -35,3 +44,11 @@ def stop_emulator():
   emulator_port = config.get('port')
   adb_device_name = 'emulator-' + str(emulator_port)
   call(['adb', '-s', adb_device_name, 'emu', 'kill'])
+
+def delete_emulator():
+  emulator = config.get('emulator')
+  call(['android', '-s', 'delete', 'avd', '-n', emulator])
+
+def stop_and_delete_emulator():
+  stop_emulator()
+  delete_emulator()
