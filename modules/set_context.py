@@ -1,9 +1,14 @@
 import numbers
 from collections import OrderedDict
 from libraries.telnet import execute
+from libraries.adb import execute_adb
 import utils
 
 alll = ['geo fix', 'sms']
+
+def event2adb_command(events):
+  for event in events:
+    execute_adb(events)
 
 def format_values(values):
   if isinstance(values, list):
@@ -35,5 +40,8 @@ def format_event(event, c, commands):
 
 def inject_events(context):
   for event in context:
-    telnet = event2command(context)
-    execute(telnet)
+    if event == 'adb':
+      event2adb_command(context[event])
+    else:
+      telnet = event2command(context)
+      execute(telnet)

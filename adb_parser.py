@@ -18,3 +18,6 @@ adb_commands = {
   'enable_mobile_data': ['adb shell svc data enable'],
   'disable_mobile_data': ['adb shell svc data disable']
 }
+
+def parse_adb_command(name):
+  return adb_commands[name]
