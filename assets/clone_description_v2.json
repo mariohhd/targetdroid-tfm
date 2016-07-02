@@ -12,6 +12,11 @@
 					"imsi": "123456789",
 					"network_provider": "vodofono"
 				},
+				"emulator": {
+					"name": "test23",
+					"sdk_version": "android-10",
+					"port": 5554
+				},
 				"network": {
 					"IP": "10.0.16.11.11",
 					"DNS": "192.168.2.2"

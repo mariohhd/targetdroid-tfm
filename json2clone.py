@@ -8,7 +8,7 @@ from collections import OrderedDict
 from modules.set_environment import set_environment
 from modules.init_context import init_context
 from modules.set_context import inject_events
-from libraries.emulator import stop_emulator
+from libraries.emulator import stop_emulator, stop_and_delete_emulator
 import config
 
 input_file = ''
@@ -57,5 +57,5 @@ except EOFError:
     print "Error: cannot open json file"
 except:
     print "Unexpected error:", sys.exc_info()[0]
-    stop_emulator()
+    stop_and_delete_emulator()
     raise
