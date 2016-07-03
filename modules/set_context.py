@@ -1,14 +1,18 @@
 import numbers
 from collections import OrderedDict
 from libraries.telnet import execute
-from libraries.adb import execute_adb
+from libraries.adb import execute_adb, execute_intent
 import utils
 
 alll = ['geo fix', 'sms']
 
 def event2adb_command(events):
   for event in events:
-    execute_adb(events)
+    execute_adb(event)
+
+def event2intent(events):
+  for event in events:
+    execute_intent(event)
 
 def format_values(values):
   if isinstance(values, list):
@@ -40,8 +44,14 @@ def format_event(event, c, commands):
 
 def inject_events(context):
   for event in context:
+    print 'event: ' +event
     if event == 'adb':
       event2adb_command(context[event])
-    else:
-      telnet = event2command(context)
+    elif event == 'intents':
+      print 'inside intent'
+      event2intent(context[event])
+    elif event == 'monkey':
+      execute_monkey(context[event])  
+    elif event == 'telnet':
+      telnet = event2command(context[event])
       execute(telnet)
