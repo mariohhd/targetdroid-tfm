@@ -101,7 +101,11 @@
 					{
 						"action": "go_home"
 					}
-				]
+				],
+				"monkey": {
+					"path": "/home/mariohhd/uc3m/targetdroid/tfm/assets/monkey/monkey.script.init.2016_06_28_16_12_09.352.0.txt",
+					"package": "android.example.com"
+				}
 			}
 		]
 	}
