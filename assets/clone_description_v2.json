@@ -72,7 +72,32 @@
 					"cancel": "666777888",
 					"data": "home",
 					"voice": "roaming"
-				}
+				},
+				"intents":[
+					{
+						"type": "start",
+						"params": "-a 'android.intent.action.VIEW' -d 'http://developer.android.com'"
+					},
+					{
+						"type": "start_service",
+						"params": "-n 'com.example.application/.MainActivity'"
+					},
+					{
+						"type": "broadcast",
+						"params": "-a 'android.intent.action.PACKAGE_FIRST_LAUNCH' -d 'com.example.application'"
+					}
+				],
+				"adb": [
+					{
+						"action": "lock_screen"
+					},
+					{
+						"action": "volume_up"
+					},
+					{
+						"action": "go_home"
+					}
+				]
 			}
 
 		]
