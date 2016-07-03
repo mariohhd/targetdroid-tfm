@@ -7,15 +7,20 @@ intent_broadcast = ['adb', 'shell', 'am', 'broadcast']
  
 
 def execute_adb(event):
-  command = parse_adb_command(event['action'])
-  print '> ' + event + ': ' + command
-  call(command.split())
+  commands = parse_adb_command(event['action'])
+  print '> ' + str(event['action'])
+  for cmd in commands:
+    print '> ' + cmd
+    call(cmd.split())
 
 def execute_intent(event):
   params = event['params'].split()
   if event['type'] == 'start':
-   call(intent_start + params)
+    print '> ' + ' '.join(intent_start) + ' '.join(params)
+    call(intent_start + params)
   if event['type'] == 'start_service':
-   call(intent_startservice + params)
+    print '> ' + ' '.join(intent_startservice) + ' '.join(params)
+    call(intent_startservice + params)
   if event['type'] == 'broadcast':
-   call(intent_broadcast + params) 
+    print '> ' + ' '.join(intent_broadcast) + ' '.join(params)
+    call(intent_broadcast + params) 
