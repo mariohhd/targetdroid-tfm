@@ -10,7 +10,6 @@ def execute_adb(event):
   commands = parse_adb_command(event['action'])
   print '> ' + str(event['action'])
   for cmd in commands:
-    print '> ' + cmd
     call(cmd.split())
 
 def execute_intent(event):
