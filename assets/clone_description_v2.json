@@ -40,38 +40,42 @@
 			},
 			{
 				"id": 1,
-				"power": {
-					"ac": "on",
-					"capacity": "85",
-					"health": "overheat",
-					"present": true,
-					"status": "full"
-				},
-				"gsm": {
-					"call": "666777888",
-					"accept": "666777888",
-					"busy": "666777888",
-					"cancel": "666777888",
-					"data": "home",
-					"voice": "roaming"
+				"telnet": {
+					"power": {
+						"ac": "on",
+						"capacity": "85",
+						"health": "overheat",
+						"present": true,
+						"status": "full"
+					},
+					"gsm": {
+						"call": "666777888",
+						"accept": "666777888",
+						"busy": "666777888",
+						"cancel": "666777888",
+						"data": "home",
+						"voice": "roaming"
+					}
 				}
 			},
 			{
 				"id": 2,
-				"power": {
-					"ac": "on",
-					"capacity": "85",
-					"health": "overheat",
-					"present": true,
-					"status": "full"
-				},
-				"gsm": {
-					"call": "666777888",
-					"accept": "666777888",
-					"busy": "666777888",
-					"cancel": "666777888",
-					"data": "home",
-					"voice": "roaming"
+				"telnet": {
+					"power": {
+						"ac": "on",
+						"capacity": "85",
+						"health": "overheat",
+						"present": true,
+						"status": "full"
+					},
+					"gsm": {
+						"call": "666777888",
+						"accept": "666777888",
+						"busy": "666777888",
+						"cancel": "666777888",
+						"data": "home",
+						"voice": "roaming"
+					}
 				},
 				"intents":[
 					{
@@ -99,7 +103,6 @@
 					}
 				]
 			}
-
 		]
 	}
 ]
