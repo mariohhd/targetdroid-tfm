@@ -2,360 +2,484 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "input JSON to configure a scenario and launch android events",
   "type": "object",
+  "required": ["name", "time"]
   "properties": {
     "name":{
       "id": "scenario name",
       "type": "string"
     },
     "time": {
-      "type": "array",
       "id": "definition of context in every execution time",
       "type": "object",
-      "properties":
+      "oneOf": [
         {
-          "id": {
-            "id": "execution moment",
-            "type": "integer"
-          },
-          "phone": {
-            "id": "phone properties",
-            "type": "object",
-            "properties": {
-              "brand": {
-                "id": "phone brand name",
-                "type": "string"
-              },
-              "device": {
-                "id": "phone device name",
-                "type": "string"
-              },
-              "hardware": {
-                "id": "phone hardware name",
-                "type": "string"
-              },
-              "imei": {
-                "id": "phone imei",
-                "type": "string"
-              },
-              "imsi": {
-                "id": "phone imsi",
-                "type": "string"
-              },
-              "network_provider": {
-                "id": "phone network provider name",
-                "type": "string"
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "id": "execution time",
+              "type": "integer",
+              "enum": [-1]
+            },
+            "emulator": {
+              "id": "emulator configuration params",
+              "properties": {
+                "name": {
+                  "id": "emulator name",
+                  "type": "string"
+                },
+                "port": {
+                  "id": "emulator port",
+                  "type": "integer"
+                },
+                "sdk_version": {
+                  "id": "emulator android version",
+                  "type": "string",
+                  "enum":["android-8", "android-10", "android-15", "android-16", "android-17", "android-18", "android-19", "android-20", "android-21", "android-22", "android-23"]
+                }
               }
-            }
-          },
-        "network": {
-          "id": "network properties",
-          "type": "object",
-          "properties": {
-            "IP": {
-              "id": "phone IP",
-              "type": "string"
             },
-            "DNS": {
-              "id": "phone DNS server",
-              "type": "string"
-            }
-          }
-        },
-        "ini_properties":{
-          "id": "properties to configurate the emulatore",
-          "type": "object",
-          "properties": {
-            "cpu_arch": {
-              "id": "The CPU Architecture to emulator",
-              "type": "string"
-            },
-            "cpu_model": {
-              "id": "The CPU model (QEMU-specific string)",
-              "type": "string"
-            },
-            "ram_size": {
-              "id": "Device ram size",
-              "type": "integer"
-            },
-            "screen_type": {
-              "id": "Defines type of the screen",
-              "type": "string"
-            },
-            "main_keys": {
-              "id": "Hardware Back/Home keys",
-              "type": "boolean"
-            },
-            "track_ball": {
-              "id": "Track-ball support",
-              "type": "boolean"
-            },
-            "keyboard": {
-              "id": "Whether the device has a QWERTY keyboard",
-              "type": "boolean"
-            },
-            "keyboard_lid": {
-              "id": "Whether the QWERTY keyboard can be opened/closed",
-              "type": "boolean"
-            },
-            "keyboard_charmap": {
-              "id": "Name of the system keyboard charmap file",
-              "type": "string"
-            },
-            "d_pad": {
-              "id": "Whether the device has DPad keys",
-              "type": "boolean"
-            },
-            "gsm_modem": {
-              "id": "phone DNS server",
-              "type": "string"
-            },
-            "gps": {
-              "id": "Whether there is a GPS in the device",
-              "type": "boolean"
-            },
-            "battery": {
-              "id": "Whether the device can run on a battery",
-              "type": "boolean"
-            },
-            "accelerometer": {
-              "id": "Whether there is an accelerometer in the device",
-              "type": "boolean"
-            }, 
-            "audio_input": {
-              "id": "Whether the device can record audio",
-              "type": "boolean"
-            }, 
-            "audio_output": {
-              "id": "Whether the device can play audio",
-              "type": "boolean"
-            }, 
-            "sd_card": {
-              "id": "Whether the device supports insertion/removal of virtual SD Cards",
-              "type": "boolean"
-            }, 
-            "sd_card_path": {
-              "id": "SD Card image path",
-              "type": "string"
-            }, 
-            "cache": {
-              "id": "Whether we use a /cache partition on the device",
-              "type": "boolean"
-            }, 
-            "cache_path": {
-              "id": "Cache partition to use on the device",
-              "type": "boolean"
-            }, 
-            "cache_size": {
-              "id": "Cache partition size",
-              "type": "string"
-            }, 
-            "lcd_width": {
-              "id": "LCD pixel width",
-              "type": "integer"
-            }, 
-            "lcd_height": {
-              "id": "LCD pixel height",
-              "type": "integer"
-            }, 
-            "lcd_depth": {
-              "id": "LCD color depth",
-              "type": "integer"
-            }, 
-            "lcd_density": {
-              "id": "Abstracted LCD density",
-              "type": "integer"
-            }, 
-            "lcd_backlight": {
-              "id": "LCD backlight",
-              "type": "boolean"
-            }, 
-            "gpu": {
-              "id": "Enable/Disable emulated OpenGLES GPU",
-              "type": "boolean"
-            }, 
-            "camera_back": {
-              "id": "Configures camera facing back",
-              "type": "string"
-            }, 
-            "camera_front": {
-              "id": "Whether the device can run on a battery",
-              "type": "string"
-            }, 
-            "heap_size": {
-              "id": "Max VM application heap size",
-              "type": "integer"
-            }, 
-            "sensor_proximity": {
-              "id": "Whether there is an proximity in the device",
-              "type": "boolean"
-            }, 
-            "sensor_magnetic_field": {
-              "id": "Provides magnetic field sensor values",
-              "type": "boolean"
-            }, 
-            "sensor_orientation": {
-              "id": "Provides orientation sensor values",
-              "type": "boolean"
-            }, 
-            "sensor_temperature": {
-              "id": "Provides temperature sensor values",
-              "type": "boolean"
-            }, 
-            "use_ext4": {
-              "id": "Specifies which file system to use: ext4 of yaffs2",
-              "type": "boolean"
-            }, 
-            "kernel_path": {
-              "id": "Path to the kernel image",
-              "type": "string"
-            }, 
-            "kernel_parameters": {
-              "id": "kernel boot parameters string",
-              "type": "string"
-            }, 
-            "ram_disk_path": {
-              "id": "Path to the ramdisk image",
-              "type": "string"
-            }, 
-            "system_partition_path": {
-              "id": "Path to runtime system partition image",
-              "type": "string"
-            }, 
-            "system_partition_init_path": {
-              "id": "Initial system partition image",
-              "type": "string"
-            }, 
-            "system_partition_size": {
-              "id": "Ideal size of system partition",
-              "type": "integer"
-            },
-            "data_partition_path": {
-              "id": "Path to data partition file",
-              "type": "string"
-            },
-            "data_partition_init_path": {
-              "id": "Initial data partition",
-              "type": "boolean"
-            },
-            "data_partition_size": {
-              "id": "Ideal size of data partition",
-              "type": "integer"
-            },
-            "snap_storage_path": {
-              "id": "Path to snapshot storage",
-              "type": "string"
-            }
-          }
-        },
-        "install_app": {
-          "id": "apks to install",
-          "type": "string"
-        },
-        "timezone": {
-          "id": "timezone for the emulator",
-          "type": "string"
-        },
-        "power": {
-          "id": "power properties",
-          "type": "object",
-          "properties": {
-            "ac": {
-              "id": "ac properties",
-              "type": { "enum": ["on", "off"] }
-            },
-            "capacity": {
-              "id": "capacity properties",
-              "type": "integer"
-            },
-            "health": {
-              "id": "power health properties",
-              "type": {"enum": ["unknown", "good", "overheat", "dead", "overvoltage", "failure"] }
-            },
-            "present": {
-              "id": "battery presence",
-              "type": "boolean"
-            },
-            "status": {
-              "id": "battery status",
-              "type": { "enum": ["unknown", "charging", "discharging", "not-charging", "full"] }
-            }
-          }
-        },
-        "gsm": {
-          "id": "calling events",
-          "type": "object",
-          "properties": {
-            "call": {
-              "id": "call to a number",
-              "type": "string"
-            },
-            "accept": {
-              "id": "accept a call",
-              "type": "string"
-            },
-            "busy": {
-              "id": "busy a call",
-              "type": "string"
-            },
-            "cancel": {
-              "id": "cancell a call",
-              "type": "string"
-            },
-            "data": {
-              "id": "data connection status",
-              "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
-            },
-            "voice": {
-              "id": "voice connection status",
-              "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
-            }
-          }
-        },
-        "sms": {
-          "id": "send a sms message",
-          "type": "object",
-          "properties": {
-            "number": {
-              "id": "number phone to send a sms",
-              "type": "string"
-            },
-            "text": {
-              "id": "message",
-              "type": "string"
-            },
-            "required": [ "number", "sms" ]
-          }
-        },
-        "geo": {
-          "id": "location events",
-          "type": "object",
-          "properties": {
-            "fix": {
-              "id": "http://jsonschema.net/t1/geo/fix",
+            "phone": {
+              "id": "phone properties",
               "type": "object",
               "properties": {
-                "longitude": {
-                  "id": "longitude",
+                "brand": {
+                  "id": "phone brand name",
                   "type": "string"
                 },
-                "latitude": {
-                  "id": "latitude",
+                "device": {
+                  "id": "phone device name",
                   "type": "string"
                 },
-                "altitude": {
-                  "id": "altitude",
+                "hardware": {
+                  "id": "phone hardware name",
                   "type": "string"
                 },
-                "required": [ "longitude", "latitude" ]
+                "imei": {
+                  "id": "phone imei",
+                  "type": "string"
+                },
+                "imsi": {
+                  "id": "phone imsi",
+                  "type": "string"
+                },
+                "network_provider": {
+                  "id": "phone network provider name",
+                  "type": "string"
+                }
               }
             },
-            "nmea": {
-              "id": "nmea",
+            "network": {
+              "id": "network properties",
+              "type": "object",
+              "properties": {
+                "IP": {
+                  "id": "phone IP",
+                  "type": "string"
+                },
+                "DNS": {
+                  "id": "phone DNS server",
+                  "type": "string"
+                }
+              }
+            },
+            "ini_properties":{
+              "id": "properties to configurate the emulatore",
+              "type": "object",
+              "properties": {
+                "cpu_arch": {
+                  "id": "The CPU Architecture to emulator",
+                  "type": "string"
+                },
+                "cpu_model": {
+                  "id": "The CPU model (QEMU-specific string)",
+                  "type": "string"
+                },
+                "ram_size": {
+                  "id": "Device ram size",
+                  "type": "integer"
+                },
+                "screen_type": {
+                  "id": "Defines type of the screen",
+                  "type": "string"
+                },
+                "main_keys": {
+                  "id": "Hardware Back/Home keys",
+                  "type": "boolean"
+                },
+                "track_ball": {
+                  "id": "Track-ball support",
+                  "type": "boolean"
+                },
+                "keyboard": {
+                  "id": "Whether the device has a QWERTY keyboard",
+                  "type": "boolean"
+                },
+                "keyboard_lid": {
+                  "id": "Whether the QWERTY keyboard can be opened/closed",
+                  "type": "boolean"
+                },
+                "keyboard_charmap": {
+                  "id": "Name of the system keyboard charmap file",
+                  "type": "string"
+                },
+                "d_pad": {
+                  "id": "Whether the device has DPad keys",
+                  "type": "boolean"
+                },
+                "gsm_modem": {
+                  "id": "phone DNS server",
+                  "type": "string"
+                },
+                "gps": {
+                  "id": "Whether there is a GPS in the device",
+                  "type": "boolean"
+                },
+                "battery": {
+                  "id": "Whether the device can run on a battery",
+                  "type": "boolean"
+                },
+                "accelerometer": {
+                  "id": "Whether there is an accelerometer in the device",
+                  "type": "boolean"
+                }, 
+                "audio_input": {
+                  "id": "Whether the device can record audio",
+                  "type": "boolean"
+                }, 
+                "audio_output": {
+                  "id": "Whether the device can play audio",
+                  "type": "boolean"
+                }, 
+                "sd_card": {
+                  "id": "Whether the device supports insertion/removal of virtual SD Cards",
+                  "type": "boolean"
+                }, 
+                "sd_card_path": {
+                  "id": "SD Card image path",
+                  "type": "string"
+                }, 
+                "cache": {
+                  "id": "Whether we use a /cache partition on the device",
+                  "type": "boolean"
+                }, 
+                "cache_path": {
+                  "id": "Cache partition to use on the device",
+                  "type": "boolean"
+                }, 
+                "cache_size": {
+                  "id": "Cache partition size",
+                  "type": "string"
+                }, 
+                "lcd_width": {
+                  "id": "LCD pixel width",
+                  "type": "integer"
+                }, 
+                "lcd_height": {
+                  "id": "LCD pixel height",
+                  "type": "integer"
+                }, 
+                "lcd_depth": {
+                  "id": "LCD color depth",
+                  "type": "integer"
+                }, 
+                "lcd_density": {
+                  "id": "Abstracted LCD density",
+                  "type": "integer"
+                }, 
+                "lcd_backlight": {
+                  "id": "LCD backlight",
+                  "type": "boolean"
+                }, 
+                "gpu": {
+                  "id": "Enable/Disable emulated OpenGLES GPU",
+                  "type": "boolean"
+                }, 
+                "camera_back": {
+                  "id": "Configures camera facing back",
+                  "type": "string"
+                }, 
+                "camera_front": {
+                  "id": "Whether the device can run on a battery",
+                  "type": "string"
+                }, 
+                "heap_size": {
+                  "id": "Max VM application heap size",
+                  "type": "integer"
+                }, 
+                "sensor_proximity": {
+                  "id": "Whether there is an proximity in the device",
+                  "type": "boolean"
+                }, 
+                "sensor_magnetic_field": {
+                  "id": "Provides magnetic field sensor values",
+                  "type": "boolean"
+                }, 
+                "sensor_orientation": {
+                  "id": "Provides orientation sensor values",
+                  "type": "boolean"
+                }, 
+                "sensor_temperature": {
+                  "id": "Provides temperature sensor values",
+                  "type": "boolean"
+                }, 
+                "use_ext4": {
+                  "id": "Specifies which file system to use: ext4 of yaffs2",
+                  "type": "boolean"
+                }, 
+                "kernel_path": {
+                  "id": "Path to the kernel image",
+                  "type": "string"
+                }, 
+                "kernel_parameters": {
+                  "id": "kernel boot parameters string",
+                  "type": "string"
+                }, 
+                "ram_disk_path": {
+                  "id": "Path to the ramdisk image",
+                  "type": "string"
+                }, 
+                "system_partition_path": {
+                  "id": "Path to runtime system partition image",
+                  "type": "string"
+                }, 
+                "system_partition_init_path": {
+                  "id": "Initial system partition image",
+                  "type": "string"
+                }, 
+                "system_partition_size": {
+                  "id": "Ideal size of system partition",
+                  "type": "integer"
+                },
+                "data_partition_path": {
+                  "id": "Path to data partition file",
+                  "type": "string"
+                },
+                "data_partition_init_path": {
+                  "id": "Initial data partition",
+                  "type": "boolean"
+                },
+                "data_partition_size": {
+                  "id": "Ideal size of data partition",
+                  "type": "integer"
+                },
+                "snap_storage_path": {
+                  "id": "Path to snapshot storage",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "id": "execution time",
+              "type": "integer",
+              "enum": [0]
+            },
+            "install_app": {
+              "id": "apks to install",
               "type": "string"
+            },
+            "timezone": {
+              "id": "timezone for the emulator",
+              "type": "string"
+            },
+            "telnet": {
+              "id": "telnet commands",
+              "type": "object",
+              "properties": {
+                "power": {
+                  "id": "power properties",
+                  "type": "object",
+                  "properties": {
+                    "ac": {
+                      "id": "ac properties",
+                      "type": { "enum": ["on", "off"] }
+                    },
+                    "capacity": {
+                      "id": "capacity properties",
+                      "type": "integer"
+                    },
+                    "health": {
+                      "id": "power health properties",
+                      "type": {"enum": ["unknown", "good", "overheat", "dead", "overvoltage", "failure"] }
+                    },
+                    "present": {
+                      "id": "battery presence",
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "id": "battery status",
+                      "type": { "enum": ["unknown", "charging", "discharging", "not-charging", "full"] }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, 
+        {
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "id": "execution time",
+              "type": "integer",
+              "minimum": 1
+            },
+            "telnet": {
+              "id": "telnet commands",
+              "type": "object",
+              "properties": {
+                "power": {
+                  "id": "power properties",
+                  "type": "object",
+                  "properties": {
+                    "ac": {
+                      "id": "ac properties",
+                      "type": { "enum": ["on", "off"] }
+                    },
+                    "capacity": {
+                      "id": "capacity properties",
+                      "type": "integer"
+                    },
+                    "health": {
+                      "id": "power health properties",
+                      "type": {"enum": ["unknown", "good", "overheat", "dead", "overvoltage", "failure"] }
+                    },
+                    "present": {
+                      "id": "battery presence",
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "id": "battery status",
+                      "type": { "enum": ["unknown", "charging", "discharging", "not-charging", "full"] }
+                    }
+                  }
+                },
+                "gsm": {
+                  "id": "calling events",
+                  "type": "object",
+                  "properties": {
+                    "call": {
+                      "id": "call to a number",
+                      "type": "string"
+                    },
+                    "accept": {
+                      "id": "accept a call",
+                      "type": "string"
+                    },
+                    "busy": {
+                      "id": "busy a call",
+                      "type": "string"
+                    },
+                    "cancel": {
+                      "id": "cancell a call",
+                      "type": "string"
+                    },
+                    "data": {
+                      "id": "data connection status",
+                      "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
+                    },
+                    "voice": {
+                      "id": "voice connection status",
+                      "type": { "enum": ["unregistered", "home", "roaming", "searching", "denied", "off", "on"] }
+                    }
+                  }
+                },
+                "sms": {
+                  "id": "send a sms message",
+                  "type": "object",
+                  "properties": {
+                    "number": {
+                      "id": "number phone to send a sms",
+                      "type": "string"
+                    },
+                    "text": {
+                      "id": "message",
+                      "type": "string"
+                    },
+                    "required": [ "number", "sms" ]
+                  }
+                },
+                "geo": {
+                  "id": "location events",
+                  "type": "object",
+                  "properties": {
+                    "fix": {
+                      "id": "http://jsonschema.net/t1/geo/fix",
+                      "type": "object",
+                      "properties": {
+                        "longitude": {
+                          "id": "longitude",
+                          "type": "string"
+                        },
+                        "latitude": {
+                          "id": "latitude",
+                          "type": "string"
+                        },
+                        "altitude": {
+                          "id": "altitude",
+                          "type": "string"
+                        },
+                        "required": [ "longitude", "latitude" ]
+                      }
+                    },
+                    "nmea": {
+                      "id": "nmea",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "adb": {
+              "id": "adb popular commands",
+              "type": "array",
+              "properties": {
+                "action": {
+                  "id": "adb action name",
+                  "type": "string",
+                  "enum": ["connect_wifi", "lock_screen", "unlock_screen", "volume_up", "go_home", "take_screenshot", "start_clock_app", "stop_clock_app", "start_wifi", "wifi_status", "enable_wifi", "disable_wifi", "enable_mobile_data", "disable_mobile_data"]
+                }
+              }
+            },
+            "intents": {
+              "id": "intents commands",
+              "type": "array",
+              "properties": {
+                "type": {
+                  "id": "intent type",
+                  "type": "string",
+                  "enum": ["start", "start_service", "broadcast"]
+                },
+                "params": {
+                  "id": "intent params",
+                  "type": "string"
+                }
+              }
+            },
+            "monkey": {
+              "id": "monkey script events",
+              "type": "object",
+              "properties": {
+                "path":{
+                  "id": "path to monkey script",
+                  "type": "string"
+                },
+                "package": {
+                  "id": "apk package where run monkey script",
+                  "type": "string"
+                }
+              }
             }
           }
         }
-      }
+      ]
     }
   }
 }
